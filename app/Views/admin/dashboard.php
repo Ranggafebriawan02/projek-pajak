@@ -1,7 +1,7 @@
 <?= $this->include('admin/layout/header') ?>
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Dashboard Admin Pajak Kendaraan</h2>
+    <h2 class="text-center mb-4">Dashboard Sistem Pajak</h2>
     <p class="text-center">Selamat datang di sistem manajemen biro jasa pajak kendaraan bermotor.</p>
 
     <div class="row text-center mb-5">
