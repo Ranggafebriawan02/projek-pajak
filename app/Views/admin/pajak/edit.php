@@ -1,7 +1,10 @@
 <?= $this->include('admin/layout/header'); ?>
 
 <style>
-  .card { border-radius: 8px; }
+  .card {
+    border-radius: 8px;
+  }
+
   .form-section-title {
     border-bottom: 2px solid #0d6efd;
     padding-bottom: 5px;
@@ -10,20 +13,29 @@
     font-weight: 600;
     font-size: 1.1rem;
   }
+
   .plat-group {
     display: flex;
     gap: 8px;
   }
+
   .plat-group .plat-awal,
   .plat-group .plat-akhir {
     max-width: 80px;
     text-transform: uppercase;
   }
+
   .plat-group .plat-nomor {
     max-width: 150px;
   }
-  #form_cicilan { display: none; }
-  #samsat_field { display: none; }
+
+  #form_cicilan {
+    display: none;
+  }
+
+  #samsat_field {
+    display: none;
+  }
 </style>
 
 <div class="container mt-5 mb-5">
@@ -128,7 +140,7 @@
                 <option value="Selesai" <?= $pengajuan['status'] == 'Selesai' ? 'selected' : '' ?>>Selesai</option>
               </select>
             </div>
-           
+
           </div>
           <!-- Kolom Kanan -->
           <div class="col-md-6 ps-md-4">
@@ -173,21 +185,23 @@
               <label class="form-label">Warna Kendaraan</label>
               <input type="text" name="warna_kendaraan" class="form-control" value="<?= esc($pengajuan['warna_kendaraan']) ?>" required>
             </div>
-             <div class="mb-3">
-              <label class="form-label">Tugaskan ke Petugas</label>
-              <select name="petugas_id" class="form-select">
+            <div class="mb-3">
+              <label for="id_petugas" class="form-label">Petugas</label>
+              <select name="id_petugas" id="id_petugas" class="form-select">
                 <option value="">-- Pilih Petugas --</option>
                 <?php foreach ($petugasList as $p): ?>
-                  <option value="<?= $p['id'] ?>" <?= $pengajuan['id_petugas'] == $p['id'] ? 'selected' : '' ?>>
-                    <?= esc($p['nama']) ?> (<?= esc($p['wilayah']) ?>)
+                  <option value="<?= $p['id'] ?>"
+                    <?= $p['id'] == ($pengajuan['id_petugas'] ?? '') ? 'selected' : '' ?>>
+                    <?= esc($p['nama']) ?>
                   </option>
-                <?php endforeach ?>
+                <?php endforeach; ?>
               </select>
             </div>
+
           </div>
-          
+
         </div>
-        
+
         <div class="mt-4">
           <button type="submit" class="btn btn-success w-100">Simpan Perubahan</button>
         </div>

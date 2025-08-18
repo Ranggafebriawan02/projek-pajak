@@ -113,13 +113,9 @@
                             <a href="<?= base_url('admin/pajak/surat_keterangan/' . $item['id']) ?>" target="_blank" class="btn btn-sm btn-success">Cetak</a>
                         </div>
                     </td>
-                    <td>
-
-                    </td>
+                    <td><?= esc($item['nama'] ?? '-') ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
-
 <?= $this->include('admin/layout/footer') ?>

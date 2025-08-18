@@ -36,7 +36,8 @@ class PajakModel extends Model
         'status',
         'sudah_dihubungi',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'id_petugas'
     ];
 
     protected $useTimestamps = true;

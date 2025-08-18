@@ -17,24 +17,29 @@ class Pajak extends BaseController
 
     /** Tampilkan data pengajuan dengan filter */
     public function index()
-    {
-        $wilayah = $this->request->getGet('wilayah');
-        $tanggal = $this->request->getGet('tanggal');
+{
+    $wilayah = $this->request->getGet('wilayah');
+    $tanggalMulai = $this->request->getGet('tanggal_mulai');
+    $tanggalSelesai = $this->request->getGet('tanggal_selesai');
 
-        $query = $this->pajakModel;
+    $query = $this->pajakModel
+        ->select('pengajuan_pajak.*, petugas.nama as nama')
+        ->join('petugas', 'petugas.id = pengajuan_pajak.id_petugas', 'left');
 
-        if ($wilayah) {
-            $query = $query->where('wilayah', $wilayah);
-        }
 
-        if ($tanggal) {
-            $query = $query->where('DATE(created_at)', $tanggal);
-        }
-
-        $data['pengajuan'] = $query->orderBy('created_at', 'DESC')->findAll();
-
-        return view('admin/pajak/index', $data);
+    if ($wilayah) {
+        $query = $query->where('pengajuan_pajak.wilayah', $wilayah);
     }
+
+    if ($tanggalMulai && $tanggalSelesai) {
+        $query = $query->where("DATE(pengajuan_pajak.created_at) BETWEEN '$tanggalMulai' AND '$tanggalSelesai'");
+    }
+
+    $data['pengajuan'] = $query->orderBy('pengajuan_pajak.created_at', 'DESC')->findAll();
+
+    return view('admin/pajak/index', $data);
+}
+
 
     /** Tampilkan form tambah */
     public function create()
@@ -50,7 +55,7 @@ class Pajak extends BaseController
             'plat_awal', 'plat_nomor', 'plat_akhir', 'jenis_pajak', 'estimasi_biaya',
             'metode_pembayaran', 'jumlah_pembayaran', 'nomor_registrasi', 'merk_kendaraan',
             'tipe_kendaraan', 'jenis_kendaraan_detail', 'model_kendaraan', 'tahun_pembuatan',
-            'isi_silinder', 'nomor_rangka', 'nomor_mesin', 'warna_kendaraan', 'petugas_id'
+            'isi_silinder', 'nomor_rangka', 'nomor_mesin', 'warna_kendaraan', 'idpetugas'
         ]);
 
         $data['status'] = 'Proses';
@@ -100,7 +105,7 @@ class Pajak extends BaseController
             'plat_awal', 'plat_nomor', 'plat_akhir', 'jenis_pajak', 'estimasi_biaya',
             'metode_pembayaran', 'jumlah_pembayaran', 'nomor_registrasi', 'merk_kendaraan',
             'tipe_kendaraan', 'jenis_kendaraan_detail', 'model_kendaraan', 'tahun_pembuatan',
-            'isi_silinder', 'nomor_rangka', 'nomor_mesin', 'warna_kendaraan', 'status', 'petugas_id'
+            'isi_silinder', 'nomor_rangka', 'nomor_mesin', 'warna_kendaraan', 'status', 'id_petugas'
         ]);
 
         // Upload ulang KTP jika metode cicilan
