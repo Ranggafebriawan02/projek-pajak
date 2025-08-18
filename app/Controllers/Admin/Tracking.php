@@ -24,11 +24,16 @@ class Tracking extends BaseController
             $plat_akhir = $pecah[2] ?? '';
 
             // Cari data pengajuan berdasarkan plat
-            $pengajuan = $pajakModel->where([
-                'plat_awal'  => $plat_awal,
-                'plat_nomor' => $plat_nomor,
-                'plat_akhir' => $plat_akhir,
-            ])->first();
+            $pengajuan = $pajakModel
+                ->select('pengajuan_pajak.*, petugas.nama as nama')
+                ->join('petugas', 'petugas.id = pengajuan_pajak.id_petugas', 'left')
+                ->where([
+                    'plat_awal'  => $plat_awal,
+                    'plat_nomor' => $plat_nomor,
+                    'plat_akhir' => $plat_akhir,
+                ])
+                ->first();
+
 
             if ($pengajuan) {
                 // Ambil data lokasi tracking terakhir

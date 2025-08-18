@@ -7,28 +7,34 @@
         font-weight: 600;
         font-size: 0.9rem;
     }
+
     .status-diproses {
         background-color: #ffc107;
         color: #fff;
     }
+
     .status-pengantaran {
         background-color: #17a2b8;
         color: #fff;
     }
+
     .status-selesai {
         background-color: #28a745;
         color: #fff;
     }
+
     .card-track {
         border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         padding: 25px;
         margin-bottom: 25px;
     }
+
     .label {
         font-weight: bold;
         color: #555;
     }
+
     .value {
         color: #212529;
     }
@@ -45,7 +51,7 @@
                     <input type="text" name="plat" class="form-control" placeholder="Masukkan Plat Nomor (Contoh: B 1234 ABC)" required>
                 </div>
                 <div class="col-md-3 d-grid">
-                    <button type="submit" class="btn btn-dark">Cari & Lacak</button>
+                    <button type="submit" class="btn btn-primary">Cari & Lacak</button>
                 </div>
             </form>
         </div>
@@ -72,16 +78,22 @@
                 <div class="col-md-8"><span class="value"><?= esc($data['wilayah']) ?></span></div>
             </div>
             <div class="row mb-2">
+                <div class="col-md-4"><span class="label">Petugas:</span></div>
+                <div class="col-md-8"><span class="value"><?= esc($data['nama'] ?? '-') ?></span></div>
+            </div>
+
+
+            <div class="row mb-2">
                 <div class="col-md-4"><span class="label">Status:</span></div>
                 <div class="col-md-8">
                     <?php
-                        $status = strtolower($data['status_tracking']);
-                        $badgeClass = match($status) {
-                            'diproses' => 'status-diproses',
-                            'pengantaran ke samsat' => 'status-pengantaran',
-                            'selesai - dokumen siap diambil' => 'status-selesai',
-                            default => 'bg-secondary'
-                        };
+                    $status = strtolower($data['status_tracking']);
+                    $badgeClass = match ($status) {
+                        'diproses' => 'status-diproses',
+                        'pengantaran ke samsat' => 'status-pengantaran',
+                        'selesai - dokumen siap diambil' => 'status-selesai',
+                        default => 'bg-secondary'
+                    };
                     ?>
                     <span class="status-badge <?= $badgeClass ?>"><?= esc($data['status_tracking']) ?></span>
                 </div>
