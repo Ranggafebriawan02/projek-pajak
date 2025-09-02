@@ -83,9 +83,12 @@
 <body>
 
   <!-- Tombol Cetak -->
+   <div style="float: right;" class="cetak">
   <a href="#" class="btn-print" onclick="window.print()">🖨 Cetak Surat</a>
 
-  <div class="header">
+   </div>
+
+  <div class="header" >
     <div class="instansi">POLRI DAERAH METRO JAYA<br>DIREKTORAT LALU LINTAS</div>
     <img src="<?= base_url('uploads/polri.png') ?>" alt="Logo" class="logo" height="80">
   </div>
@@ -126,14 +129,12 @@
     <p><strong>4.</strong> Surat keterangan ini bukan sebagai pengganti STNK diberikan kepada Badan Usaha di bidang penjualan kendaraan bermotor baru milik pribadi dan tidak berlaku untuk angkutan umum/angkutan barang, dan berlaku selama 30 (tiga puluh) hari sejak tanggal _______ dan tidak dapat diperpanjang.</p>
 
     <p><strong>5.</strong> Demikian untuk menjadi maklum.</p>
-
     <div class="ttd">
       <p>Dikeluarkan di : Jakarta<br>
          Pada tanggal : <?= date('d-m-Y') ?></p>
 
-      <p>a.n DIREKTUR LALULINTAS POLDA METRO JAYA<br>
+      <p>DIREKTUR LALULINTAS POLDA METRO JAYA<br>
          KASUBDITREGIDENT<br>
-         u.b.<br>
          <strong>KASI STNK</strong></p>
 
       <br><br><br>
