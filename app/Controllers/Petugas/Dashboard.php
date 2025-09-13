@@ -3,32 +3,55 @@
 namespace App\Controllers\Petugas;
 
 use App\Controllers\BaseController;
-use App\Models\PengajuanPajakModel;
+use App\Models\PengajuanModel;
+use App\Models\PetugasModel;
 
 class Dashboard extends BaseController
 {
     public function index()
     {
-        $pengajuanModel = new PengajuanPajakModel();
+        // Ambil id petugas dari session bila ada, kalau tidak pakai 2 (sementara)
+        $idPetugas = session()->get('id_petugas') ?? 2;
 
-        // Ambil id_petugas dari session (login petugas)
-        $id_petugas = session()->get('id_petugas');
+        $pengajuanModel = new PengajuanModel();
+        $petugasModel   = new PetugasModel();
 
-        // Hitung data untuk dashboard
-        $totalTugas = $pengajuanModel->getTotalTugas($id_petugas);
-        $diproses   = $pengajuanModel->getCountByStatus($id_petugas, 'Diproses');
-        $pengantaran = $pengajuanModel->getCountByStatus($id_petugas, 'Pengantaran ke Samsat');
-        $selesai    = $pengajuanModel->getCountByStatus($id_petugas, 'Selesai - Dokumen Siap Diambil');
+        // Hitung statistik pengajuan untuk petugas ini
+        $totalPengajuan = $pengajuanModel->where('id_petugas', $idPetugas)->countAllResults();
+        $diproses       = $pengajuanModel->where(['id_petugas' => $idPetugas, 'status' => 'Diproses'])->countAllResults();
+        $selesai        = $pengajuanModel->where(['id_petugas' => $idPetugas, 'status' => 'Selesai'])->countAllResults();
 
-        // Ambil daftar tugas terbaru
-        $tugasTerbaru = $pengajuanModel->getTugasByPetugas($id_petugas);
+        // Ambil data petugas (bisa return array atau object tergantung PetugasModel::$returnType)
+        $petugas = $petugasModel->find($idPetugas);
 
-        return view('petugas/dashboard', [
-            'totalTugas'  => $totalTugas,
-            'diproses'    => $diproses,
-            'pengantaran' => $pengantaran,
-            'selesai'     => $selesai,
-            'tugasTerbaru'=> $tugasTerbaru
-        ]);
+        // Ambil nilai wilayah & nama secara aman (mendukung array atau object, dan null)
+        $wilayah = '-';
+        $namaPetugas = 'Petugas';
+        if ($petugas) {
+            if (is_array($petugas)) {
+                $wilayah = $petugas['wilayah'] ?? '-';
+                $namaPetugas = $petugas['nama'] ?? 'Petugas';
+            } else { // object
+                $wilayah = $petugas->wilayah ?? '-';
+                $namaPetugas = $petugas->nama ?? 'Petugas';
+            }
+        }
+
+        // Ambil daftar pengajuan terbaru (misal 20 teratas)
+        $pengajuan = $pengajuanModel
+                      ->where('id_petugas', $idPetugas)
+                      ->orderBy('created_at', 'DESC')
+                      ->findAll(20);
+
+        $data = [
+            'totalPengajuan' => $totalPengajuan,
+            'diproses'       => $diproses,
+            'selesai'        => $selesai,
+            'wilayah'        => $wilayah,
+            'namaPetugas'    => $namaPetugas,
+            'pengajuan'      => $pengajuan,
+        ];
+
+        return view('petugas/dashboard', $data);
     }
 }

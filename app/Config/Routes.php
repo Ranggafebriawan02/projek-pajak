@@ -42,18 +42,28 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
 
 
 // Petugas
+// $routes->group('petugas', ['namespace' => 'App\Controllers\Petugas'], function ($routes) {
+//     // Login Petugas
+//     $routes->get('login', 'AuthPetugas::login');
+//     $routes->post('login', 'AuthPetugas::prosesLogin');
+//     $routes->get('logout', 'AuthPetugas::logout');
+
+//     // Dashboard Petugas
+//     $routes->get('dashboard', 'Dashboard::index', ['filter' => 'authPetugas']);
+
+
+//     $routes->get('dashboard', 'Dashboard::index');
+//     $routes->get('pengajuan', 'Pengajuan::index');
+//     $routes->get('pengajuan/edit/(:num)', 'Pengajuan::edit/$1');
+//     $routes->post('pengajuan/update/(:num)', 'Pengajuan::update/$1');
+// });
+
 $routes->group('petugas', ['namespace' => 'App\Controllers\Petugas'], function ($routes) {
-    // Login Petugas
-    $routes->get('login', 'AuthPetugas::login');
-    $routes->post('login', 'AuthPetugas::prosesLogin');
-    $routes->get('logout', 'AuthPetugas::logout');
-
-    // Dashboard Petugas
-    $routes->get('dashboard', 'Dashboard::index', ['filter' => 'authPetugas']);
-
-
     $routes->get('dashboard', 'Dashboard::index');
     $routes->get('pengajuan', 'Pengajuan::index');
     $routes->get('pengajuan/edit/(:num)', 'Pengajuan::edit/$1');
     $routes->post('pengajuan/update/(:num)', 'Pengajuan::update/$1');
 });
+
+   
+
